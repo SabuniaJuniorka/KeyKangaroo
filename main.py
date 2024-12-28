@@ -240,7 +240,7 @@ class MainWindow(QMainWindow):
         print("Button clicked")
         self.button.setText("Clicked")
 """
-
+"""
 
 
 def main():
