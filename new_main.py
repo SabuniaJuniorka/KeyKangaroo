@@ -1,5 +1,6 @@
 import sys
-from PyQt5.QtWidgets import (QApplication, QMainWindow, QLabel, QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QLineEdit)
+from PyQt5.QtWidgets import (QApplication, QMainWindow, QLabel, QWidget, QVBoxLayout, QHBoxLayout, QPushButton,
+                             QLineEdit)
 from PyQt5.QtGui import QIcon, QGuiApplication
 from PyQt5.QtCore import Qt
 
@@ -12,40 +13,41 @@ class MainWindow(QMainWindow):
         primary_screen_width = primary_screen_resolution.width()
         primary_screen_height = primary_screen_resolution.height()
 
-        window_width = int(primary_screen_width * 0.5)
-        window_height = int(primary_screen_height * 0.6)
+        self.window_width = int(primary_screen_width * 0.5)
+        self.window_height = int(primary_screen_height * 0.6)
 
-        self.setGeometry(100, 100, window_width, window_height)
+        self.setGeometry(100, 100, self.window_width, self.window_height)
         self.setWindowTitle("KeyKangaroo Password Manager")
         self.setWindowIcon(QIcon("kangaroo.png"))  # Set the small icon near title
 
         self.initUI()
 
     def initUI(self):
-
         central_widget = QWidget()
         self.setCentralWidget(central_widget)
 
         main_layout = QVBoxLayout()
 
-        # Parent label container
+        # parent label container
         parent_label = QWidget(self)
         parent_layout = QVBoxLayout(parent_label)
         parent_label.setLayout(parent_layout)
 
-        # Upper label
-        header = QLabel("Header", parent_label)
+        # upper label
+        header = QLabel("Welcome to KeyKangaroo!", parent_label)
         header.setAlignment(Qt.AlignCenter)
         parent_layout.addWidget(header)
+        header.setObjectName("header")
 
-        # Lower label container (splits into 2 vertical labels)
+        # lower label container (splits into 2 vertical labels)
         lower_label_container = QWidget(parent_label)
         lower_layout = QHBoxLayout(lower_label_container)
 
-        # Left and right vertical labels in the lower section
+        # left and right vertical labels in the lower section
         input_widget_container = QWidget(lower_label_container)
         input_widget_layout = QHBoxLayout(input_widget_container)
-        # input_widget_container.setMaximumWidth(500)
+        # set maximum width of input container
+        input_widget_container.setMaximumWidth(self.window_width // 2)
 
         button_widget_container = QWidget(lower_label_container)
         button_widget_layout = QHBoxLayout(button_widget_container)
@@ -62,28 +64,33 @@ class MainWindow(QMainWindow):
         input_widget_layout.addWidget(user_input_number)
         user_input_number.setPlaceholderText("Enter length of password you want to generate")
 
-
-        # Add left and right labels to the lower layout
+        # add left and right labels to the lower layout
         lower_layout.addWidget(input_widget_container)
         lower_layout.addWidget(button_widget_container)
 
-        # Add lower container to the parent layout
+        # add lower container to the parent layout
         parent_layout.addWidget(lower_label_container)
 
-        # Add parent label to the main layout
+        # add parent label to the main layout
         main_layout.addWidget(parent_label)
 
-        # Styling
+        # styling
         self.setStyleSheet("""
+            *{
+            font-family: Roboto Mono;
+            }
             QLabel {
-                font-size: 24px;
+                font-size: 24pt;
+            }
+            QLabel#header {
+                font-size: 48pt;
             }
             QWidget {
                 border: 2px solid red;
             }
         """)
 
-        # Set layout for the central widget
+        # set layout for the central widget
         central_widget.setLayout(main_layout)
 
 
