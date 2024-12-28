@@ -1,5 +1,5 @@
 import sys
-from PyQt5.QtWidgets import (QApplication, QMainWindow, QLabel, QWidget, QVBoxLayout, QHBoxLayout)
+from PyQt5.QtWidgets import (QApplication, QMainWindow, QLabel, QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QLineEdit)
 from PyQt5.QtGui import QIcon, QGuiApplication
 from PyQt5.QtCore import Qt
 
@@ -22,6 +22,7 @@ class MainWindow(QMainWindow):
         self.initUI()
 
     def initUI(self):
+
         central_widget = QWidget()
         self.setCentralWidget(central_widget)
 
@@ -43,8 +44,24 @@ class MainWindow(QMainWindow):
 
         # Left and right vertical labels in the lower section
         input_widget_container = QWidget(lower_label_container)
+        input_widget_layout = QHBoxLayout(input_widget_container)
+        # input_widget_container.setMaximumWidth(500)
 
         button_widget_container = QWidget(lower_label_container)
+        button_widget_layout = QHBoxLayout(button_widget_container)
+
+        # add buttons and append them to button container
+        generate_button = QPushButton("Generate new password", button_widget_container)
+        button_widget_layout.addWidget(generate_button)
+
+        submit_button = QPushButton("Submit", button_widget_container)
+        button_widget_layout.addWidget(submit_button)
+
+        # add input and append it to input container
+        user_input_number = QLineEdit(input_widget_container)
+        input_widget_layout.addWidget(user_input_number)
+        user_input_number.setPlaceholderText("Enter length of password you want to generate")
+
 
         # Add left and right labels to the lower layout
         lower_layout.addWidget(input_widget_container)
