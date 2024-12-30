@@ -140,12 +140,6 @@ class MainWindow(QMainWindow):
         text_from_button = self.line_edit.text()
         print(text_from_button)
 
-
-
-"""
-
-"""
-
         self.radio1.setGeometry(0, 0, 500, 100)
         self.radio2.setGeometry(0, 100, 500, 100)
         self.radio3.setGeometry(0, 200, 500, 100)

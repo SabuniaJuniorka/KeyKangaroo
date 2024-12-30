@@ -1,4 +1,5 @@
 import sys
+import pyperclip
 from PyQt5.QtWidgets import (QApplication, QMainWindow, QLabel, QWidget, QVBoxLayout, QHBoxLayout, QPushButton,
                              QLineEdit)
 from PyQt5.QtGui import QIcon, QGuiApplication
@@ -13,8 +14,8 @@ class MainWindow(QMainWindow):
         primary_screen_width = primary_screen_resolution.width()
         primary_screen_height = primary_screen_resolution.height()
 
-        self.window_width = int(primary_screen_width * 0.5)
-        self.window_height = int(primary_screen_height * 0.6)
+        self.window_width = int(primary_screen_width * 0.6)
+        self.window_height = int(primary_screen_height * 0.8)
 
         self.setGeometry(100, 100, self.window_width, self.window_height)
         self.setWindowTitle("KeyKangaroo Password Manager")
@@ -107,6 +108,8 @@ class MainWindow(QMainWindow):
         generate_password_button.clicked.connect(self.generate_password)
         generate_password_button.clicked.connect(self.show_copy_button)
 
+        self.copy_to_clipboard_button.clicked.connect(self.copy_password_to_clipboard)
+
     # function which generates password based on user input
     def generate_password(self):
         import string
@@ -158,12 +161,22 @@ class MainWindow(QMainWindow):
 
         password = "".join(generated_signs)
 
-        self.header.setText(f"your pass: {password}")
-
-        print(password)
+        self.header.setText(f"Your password: {password}")
 
     def show_copy_button(self):
         self.copy_to_clipboard_button.show()
+
+    def copy_password_to_clipboard(self):
+
+        # get the header text and extract password from it
+        text = self.header.text()
+        text_splited = text.split()
+        password = text_splited[2]
+
+        # copy password to system clipboard
+
+        pyperclip.copy(password)
+        self.header.setText("Password copied to clipboard!")
 
 
 def main():
