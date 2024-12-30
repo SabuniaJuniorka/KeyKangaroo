@@ -34,10 +34,10 @@ class MainWindow(QMainWindow):
         parent_label.setLayout(parent_layout)
 
         # upper label
-        header = QLabel("Welcome to KeyKangaroo!", parent_label)
-        header.setAlignment(Qt.AlignCenter)
-        parent_layout.addWidget(header)
-        header.setObjectName("header")
+        self.header = QLabel("Welcome to KeyKangaroo!", parent_label)
+        self.header.setAlignment(Qt.AlignCenter)
+        parent_layout.addWidget(self.header)
+        self.header.setObjectName("header")
 
         # lower label container (splits into 2 vertical labels)
         lower_label_container = QWidget(parent_label)
@@ -62,10 +62,11 @@ class MainWindow(QMainWindow):
         input_widget_layout.addWidget(generate_password_button)
 
 
-        # add submit and what is a secure password button and append them to button container
+        # add copy to clipboard and what is a secure password button and append them to button container
 
-        submit_button = QPushButton("Submit", button_widget_container)
-        button_widget_layout.addWidget(submit_button)
+        self.copy_to_clipboard_button = QPushButton("Copy password to clipboard", button_widget_container)
+        button_widget_layout.addWidget(self.copy_to_clipboard_button)
+        self.copy_to_clipboard_button.hide()
 
         what_makes_password_secure_button = QPushButton("What makes password secure?", button_widget_container)
         button_widget_layout.addWidget(what_makes_password_secure_button)
@@ -104,7 +105,9 @@ class MainWindow(QMainWindow):
         central_widget.setLayout(main_layout)
 
         generate_password_button.clicked.connect(self.generate_password)
+        generate_password_button.clicked.connect(self.show_copy_button)
 
+    # function which generates password based on user input
     def generate_password(self):
         import string
         import random
@@ -155,7 +158,12 @@ class MainWindow(QMainWindow):
 
         password = "".join(generated_signs)
 
+        self.header.setText(f"your pass: {password}")
+
         print(password)
+
+    def show_copy_button(self):
+        self.copy_to_clipboard_button.show()
 
 
 def main():
