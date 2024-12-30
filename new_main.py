@@ -45,24 +45,30 @@ class MainWindow(QMainWindow):
 
         # left and right vertical labels in the lower section
         input_widget_container = QWidget(lower_label_container)
-        input_widget_layout = QHBoxLayout(input_widget_container)
+        input_widget_layout = QVBoxLayout(input_widget_container)
         # set maximum width of input container
         input_widget_container.setMaximumWidth(self.window_width // 2)
 
         button_widget_container = QWidget(lower_label_container)
         button_widget_layout = QHBoxLayout(button_widget_container)
 
-        # add buttons and append them to button container
-        generate_button = QPushButton("Generate new password", button_widget_container)
-        button_widget_layout.addWidget(generate_button)
+        # add input and append it to input container
+        self.user_input_number = QLineEdit(input_widget_container)
+        input_widget_layout.addWidget(self.user_input_number)
+        self.user_input_number.setPlaceholderText("Enter length of password you want to generate")
+
+        # add generate button and append it to input container
+        generate_password_button = QPushButton("Generate new password", input_widget_container)
+        input_widget_layout.addWidget(generate_password_button)
+
+
+        # add submit and what is a secure password button and append them to button container
 
         submit_button = QPushButton("Submit", button_widget_container)
         button_widget_layout.addWidget(submit_button)
 
-        # add input and append it to input container
-        user_input_number = QLineEdit(input_widget_container)
-        input_widget_layout.addWidget(user_input_number)
-        user_input_number.setPlaceholderText("Enter length of password you want to generate")
+        what_makes_password_secure_button = QPushButton("What makes password secure?", button_widget_container)
+        button_widget_layout.addWidget(what_makes_password_secure_button)
 
         # add left and right labels to the lower layout
         lower_layout.addWidget(input_widget_container)
@@ -76,7 +82,7 @@ class MainWindow(QMainWindow):
 
         # styling
         self.setStyleSheet("""
-            *{
+            * {
             font-family: Roboto Mono;
             }
             QLabel {
@@ -88,10 +94,20 @@ class MainWindow(QMainWindow):
             QWidget {
                 border: 2px solid red;
             }
+            QPushButton, QLineEdit {
+                font-size: 12pt;
+                border: 2px solid blue;
+            }
         """)
 
         # set layout for the central widget
         central_widget.setLayout(main_layout)
+
+        generate_password_button.clicked.connect(self.take_input_from_text_box)
+
+    def take_input_from_text_box(self):
+        text_from_input = self.user_input_number.text()
+        print(text_from_input)
 
 
 def main():
