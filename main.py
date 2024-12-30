@@ -140,6 +140,8 @@ class MainWindow(QMainWindow):
         text_from_button = self.line_edit.text()
         print(text_from_button)
 
+
+
 """
 
 """

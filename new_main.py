@@ -103,11 +103,59 @@ class MainWindow(QMainWindow):
         # set layout for the central widget
         central_widget.setLayout(main_layout)
 
-        generate_password_button.clicked.connect(self.take_input_from_text_box)
+        generate_password_button.clicked.connect(self.generate_password)
 
-    def take_input_from_text_box(self):
-        text_from_input = self.user_input_number.text()
-        print(text_from_input)
+    def generate_password(self):
+        import string
+        import random
+
+        # take the input from user_input
+
+        length_of_password = self.user_input_number.text()
+
+        # get all characters needed to create secure password
+
+        ascii_lowercase = list(string.ascii_lowercase)
+        ascii_uppercase = list(string.ascii_uppercase)
+        digits = list(string.digits)
+        special_chars = list(string.punctuation)
+        special_chars.remove("`")
+        special_chars.remove("|")
+
+        length_of_password = int(length_of_password)
+
+        # shuffle lists of characters
+
+        random.shuffle(ascii_lowercase)
+        random.shuffle(ascii_uppercase)
+        random.shuffle(digits)
+        random.shuffle(special_chars)
+
+        # part the length of password in 2
+        password_part_1 = round(length_of_password * 0.3)
+        password_part_2 = round(length_of_password * 0.2)
+
+        generated_signs = []
+
+        # append the number of signs to the list of signs
+
+        for sign in range(password_part_1):
+            generated_signs.append(ascii_lowercase[sign])
+            generated_signs.append(ascii_uppercase[sign])
+
+        for sign in range(password_part_2):
+            generated_signs.append(digits[sign])
+            generated_signs.append(special_chars[sign])
+
+        # shuffle generated signs once again
+
+        random.shuffle(generated_signs)
+
+        # make a password from random signs by joining them
+
+        password = "".join(generated_signs)
+
+        print(password)
 
 
 def main():
