@@ -130,41 +130,50 @@ class MainWindow(QMainWindow):
 
         length_of_password = int(length_of_password)
 
-        # shuffle lists of characters
+        if length_of_password < 12:
+            print("password is too short")
+            self.header.setText(f"Password is too short!\nShould be at least 12 characters")
+        else:
 
-        random.shuffle(ascii_lowercase)
-        random.shuffle(ascii_uppercase)
-        random.shuffle(digits)
-        random.shuffle(special_chars)
+            # shuffle lists of characters
 
-        # part the length of password in 2
-        password_part_1 = round(length_of_password * 0.3)
-        password_part_2 = round(length_of_password * 0.2)
+            random.shuffle(ascii_lowercase)
+            random.shuffle(ascii_uppercase)
+            random.shuffle(digits)
+            random.shuffle(special_chars)
 
-        generated_signs = []
+            # part the length of password in 2
+            password_part_1 = round(length_of_password * 0.3)
+            password_part_2 = round(length_of_password * 0.2)
 
-        # append the number of signs to the list of signs
+            generated_signs = []
 
-        for sign in range(password_part_1):
-            generated_signs.append(ascii_lowercase[sign])
-            generated_signs.append(ascii_uppercase[sign])
+            # append the number of signs to the list of signs
 
-        for sign in range(password_part_2):
-            generated_signs.append(digits[sign])
-            generated_signs.append(special_chars[sign])
+            for sign in range(password_part_1):
+                generated_signs.append(ascii_lowercase[sign])
+                generated_signs.append(ascii_uppercase[sign])
 
-        # shuffle generated signs once again
+            for sign in range(password_part_2):
+                generated_signs.append(digits[sign])
+                generated_signs.append(special_chars[sign])
 
-        random.shuffle(generated_signs)
+            # shuffle generated signs once again
 
-        # make a password from random signs by joining them
+            random.shuffle(generated_signs)
 
-        password = "".join(generated_signs)
+            # make a password from random signs by joining them
 
-        self.header.setText(f"Your password: {password}")
+            password = "".join(generated_signs)
+
+            self.header.setText(f"Your password:\n{password}")
 
     def show_copy_button(self):
-        self.copy_to_clipboard_button.show()
+        length_of_password = int(self.user_input_number.text())
+        if length_of_password >= 12:
+            self.copy_to_clipboard_button.show()
+        else:
+            self.copy_to_clipboard_button.hide()
 
     def copy_password_to_clipboard(self):
 
