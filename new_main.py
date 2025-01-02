@@ -130,6 +130,8 @@ class MainWindow(QMainWindow):
 
         length_of_password = int(length_of_password)
 
+        # check the length of the input and inform the user if the password is too short to be secure
+
         if length_of_password < 12:
             print("password is too short")
             self.header.setText(f"Password is too short!\nShould be at least 12 characters")
@@ -169,6 +171,8 @@ class MainWindow(QMainWindow):
             self.header.setText(f"Your password:\n{password}")
 
     def show_copy_button(self):
+
+        # check the length of password and show/hide button to copy generated password
         length_of_password = int(self.user_input_number.text())
         if length_of_password >= 12:
             self.copy_to_clipboard_button.show()
