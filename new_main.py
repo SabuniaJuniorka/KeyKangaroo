@@ -71,9 +71,9 @@ class MainWindow(QMainWindow):
         button_widget_layout.addWidget(self.copy_to_clipboard_button)
         self.copy_to_clipboard_button.hide()
 
-        what_makes_password_secure_button = QPushButton("What makes password secure?", button_widget_container)
-        button_widget_layout.addWidget(what_makes_password_secure_button)
-        what_makes_password_secure_button.setObjectName("secure_password")
+        self.what_makes_password_secure_button = QPushButton("What makes password secure?", button_widget_container)
+        button_widget_layout.addWidget(self.what_makes_password_secure_button)
+        self.what_makes_password_secure_button.setObjectName("secure_password")
 
         # add left and right labels to the lower layout
         lower_layout.addWidget(input_widget_container)
@@ -142,6 +142,7 @@ class MainWindow(QMainWindow):
         generate_password_button.clicked.connect(self.show_copy_button)
 
         self.copy_to_clipboard_button.clicked.connect(self.copy_password_to_clipboard)
+        self.what_makes_password_secure_button.clicked.connect(self.what_makes_password_secure)
 
     # function which generates password based on user input
     def generate_password(self):
@@ -168,6 +169,9 @@ class MainWindow(QMainWindow):
         if length_of_password < 12:
             print("password is too short")
             self.header.setText(f"Password is too short!\nShould be at least 12 characters")
+        elif length_of_password > 32:
+            print("password is too long")
+            self.header.setText(f"Password is too long!\nShould be at most 32 characters")
         else:
 
             # shuffle lists of characters
@@ -228,6 +232,9 @@ class MainWindow(QMainWindow):
         #clear the input field
 
         self.user_input_number.clear()
+
+    def what_makes_password_secure(self):
+        self.header.setText("test")
 
 
 def main():
