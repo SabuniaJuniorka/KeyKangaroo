@@ -234,7 +234,16 @@ class MainWindow(QMainWindow):
         self.user_input_number.clear()
 
     def what_makes_password_secure(self):
-        self.header.setText("test")
+        secure_password_text = """
+        A password should be <b>at least 12 characters long</b>.<br>
+        A password <b>should include a combination of letters, both uppercase and lowercase, numbers, and characters.</b><br>
+        You must have a <b>unique password</b> for each online account.<br>
+        A password <b>shouldn’t include any of your personal information</b> like your birthday or address.<br>
+        A password <b>shouldn’t contain any consecutive letters or numbers</b> <i>(i.e. ABCD, 1234, etc.)</i><br>
+        A password <b>shouldn’t be the word “password” or the same letter or number repeated.</b><br>
+        """
+        self.header.setText(secure_password_text)
+        self.header.setStyleSheet("font-size: 14pt;")
 
 
 def main():
