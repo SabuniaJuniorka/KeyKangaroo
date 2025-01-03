@@ -56,7 +56,7 @@ class MainWindow(QMainWindow):
         # add input and append it to input container
         self.user_input_number = QLineEdit(input_widget_container)
         input_widget_layout.addWidget(self.user_input_number)
-        self.user_input_number.setPlaceholderText("Enter length of password you want to generate")
+        self.user_input_number.setPlaceholderText("Enter length of password")
 
         # add generate button and append it to input container
         generate_password_button = QPushButton("Generate new password", input_widget_container)
@@ -71,6 +71,7 @@ class MainWindow(QMainWindow):
 
         what_makes_password_secure_button = QPushButton("What makes password secure?", button_widget_container)
         button_widget_layout.addWidget(what_makes_password_secure_button)
+        what_makes_password_secure_button.setObjectName("secure_password")
 
         # add left and right labels to the lower layout
         lower_layout.addWidget(input_widget_container)
@@ -92,6 +93,7 @@ class MainWindow(QMainWindow):
             }
             QLabel#header {
                 font-size: 48pt;
+                border: 2px solid black;
             }
             QWidget {
                 border: 2px solid red;
@@ -100,6 +102,19 @@ class MainWindow(QMainWindow):
                 font-size: 12pt;
                 border: 2px solid blue;
             }
+            QPushButton {
+                background-color: #CE9865;
+            }
+            QPushButton::hover {
+                background-color: #f2a963;
+            }
+            QPushButton#secure_password {
+                background-color: #c4b462;
+            }
+            QPushButton#secure_password::hover {
+                background-color: #edde8e;
+            }
+
         """)
 
         # set layout for the central widget
@@ -170,6 +185,7 @@ class MainWindow(QMainWindow):
 
             self.header.setText(f"Your password:\n{password}")
 
+
     def show_copy_button(self):
 
         # check the length of password and show/hide button to copy generated password
@@ -190,6 +206,10 @@ class MainWindow(QMainWindow):
 
         pyperclip.copy(password)
         self.header.setText("Password copied to clipboard!")
+
+        #clear the input field
+
+        self.user_input_number.clear()
 
 
 def main():
