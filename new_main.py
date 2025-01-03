@@ -49,9 +49,11 @@ class MainWindow(QMainWindow):
         input_widget_layout = QVBoxLayout(input_widget_container)
         # set maximum width of input container
         input_widget_container.setMaximumWidth(self.window_width // 2)
+        input_widget_container.setObjectName("input_container")
 
         button_widget_container = QWidget(lower_label_container)
         button_widget_layout = QHBoxLayout(button_widget_container)
+        button_widget_container.setObjectName("button_container")
 
         # add input and append it to input container
         self.user_input_number = QLineEdit(input_widget_container)
@@ -88,6 +90,9 @@ class MainWindow(QMainWindow):
             * {
             font-family: Roboto Mono;
             }
+            QWidget{
+                background-color: #FBE5B6;
+            }
             QLabel {
                 font-size: 24pt;
             }
@@ -98,21 +103,34 @@ class MainWindow(QMainWindow):
             QWidget {
                 border: 2px solid red;
             }
+            QWidget#input_container {
+                background-color: #FB6A75;
+            }
+            QWidget#button_container {
+                background-color: #00C7B7;
+            }
+            QLineEdit{
+                background-color: #2C6E63;
+                color: white;
+            }
             QPushButton, QLineEdit {
                 font-size: 12pt;
                 border: 2px solid blue;
+                height: 100px;
+                min-width: 10em;
+                max-width: 30em;
             }
             QPushButton {
                 background-color: #CE9865;
             }
             QPushButton::hover {
-                background-color: #f2a963;
+                background-color: #F38218;
             }
             QPushButton#secure_password {
-                background-color: #c4b462;
+                background-color: #F8B735;
             }
             QPushButton#secure_password::hover {
-                background-color: #edde8e;
+                background-color: #faca69;
             }
 
         """)
