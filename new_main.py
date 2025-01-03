@@ -64,7 +64,6 @@ class MainWindow(QMainWindow):
         generate_password_button = QPushButton("Generate new password", input_widget_container)
         input_widget_layout.addWidget(generate_password_button)
 
-
         # add copy to clipboard and what is a secure password button and append them to button container
 
         self.copy_to_clipboard_button = QPushButton("Copy password to clipboard", button_widget_container)
@@ -149,75 +148,108 @@ class MainWindow(QMainWindow):
         import string
         import random
 
-        # take the input from user_input
+        try:
+            # take the input from user_input
 
-        length_of_password = self.user_input_number.text()
+            length_of_password = self.user_input_number.text().strip()
 
-        # get all characters needed to create secure password
+            # if the input is empty
 
-        ascii_lowercase = list(string.ascii_lowercase)
-        ascii_uppercase = list(string.ascii_uppercase)
-        digits = list(string.digits)
-        special_chars = list(string.punctuation)
-        special_chars.remove("`")
-        special_chars.remove("|")
+            if not length_of_password:
+                self.header.setText("Please enter a length of password!")
+                self.header.setStyleSheet("font-size: 48pt; color: red;")
+                return
 
-        length_of_password = int(length_of_password)
+            # check if input is not a number
 
-        # check the length of the input and inform the user if the password is too short to be secure
-        self.header.setStyleSheet("font-size: 48pt;")
-        if length_of_password < 12:
-            print("password is too short")
-            self.header.setText(f"Password is too short!\nShould be at least 12 characters")
-        elif length_of_password > 32:
-            print("password is too long")
-            self.header.setText(f"Password is too long!\nShould be at most 32 characters")
-        else:
+            if not length_of_password.isdigit():
+                self.header.setText("Please enter an integer number!")
+                self.header.setStyleSheet("font-size: 48pt; color: red;")
+                return
 
-            # shuffle lists of characters
+            # get all characters needed to create secure password
 
-            random.shuffle(ascii_lowercase)
-            random.shuffle(ascii_uppercase)
-            random.shuffle(digits)
-            random.shuffle(special_chars)
+            ascii_lowercase = list(string.ascii_lowercase)
+            ascii_uppercase = list(string.ascii_uppercase)
+            digits = list(string.digits)
+            special_chars = list(string.punctuation)
+            special_chars.remove("`")
+            special_chars.remove("|")
 
-            # part the length of password in 2
-            password_part_1 = round(length_of_password * 0.3)
-            password_part_2 = round(length_of_password * 0.2)
+            length_of_password = int(length_of_password)
 
-            generated_signs = []
-
-            # append the number of signs to the list of signs
-
-            for sign in range(password_part_1):
-                generated_signs.append(ascii_lowercase[sign])
-                generated_signs.append(ascii_uppercase[sign])
-
-            for sign in range(password_part_2):
-                generated_signs.append(digits[sign])
-                generated_signs.append(special_chars[sign])
-
-            # shuffle generated signs once again
-
-            random.shuffle(generated_signs)
-
-            # make a password from random signs by joining them
-
-            password = "".join(generated_signs)
-
+            # check the length of the input and inform the user if the password is too short to be secure
             self.header.setStyleSheet("font-size: 48pt;")
+            if length_of_password < 12:
+                print("password is too short")
+                self.header.setText(f"Password is too short!\nShould be at least 12 characters")
+            elif length_of_password > 32:
+                print("password is too long")
+                self.header.setText(f"Password is too long!\nShould be at most 32 characters")
+            else:
 
-            self.header.setText(f"Your password:\n{password}")
+                # shuffle lists of characters
 
+                random.shuffle(ascii_lowercase)
+                random.shuffle(ascii_uppercase)
+                random.shuffle(digits)
+                random.shuffle(special_chars)
+
+                # part the length of password in 2
+                password_part_1 = round(length_of_password * 0.3)
+                password_part_2 = round(length_of_password * 0.2)
+
+                generated_signs = []
+
+                # append the number of signs to the list of signs
+
+                for sign in range(password_part_1):
+                    generated_signs.append(ascii_lowercase[sign])
+                    generated_signs.append(ascii_uppercase[sign])
+
+                for sign in range(password_part_2):
+                    generated_signs.append(digits[sign])
+                    generated_signs.append(special_chars[sign])
+
+                # shuffle generated signs once again
+
+                random.shuffle(generated_signs)
+
+                # make a password from random signs by joining them
+
+                password = "".join(generated_signs)
+
+                # display password in header
+
+                self.header.setStyleSheet("font-size: 48pt;")
+                self.header.setText(f"Your password:\n{password}")
+
+        except Exception as error:
+            print(f"Error: {error}")
+            self.header.setStyleSheet("font-size: 48pt;")
+            self.header.setText("Please enter a valid number!")
 
     def show_copy_button(self):
+        try:
 
-        # check the length of password and show/hide button to copy generated password
-        length_of_password = int(self.user_input_number.text())
-        if 12 <= length_of_password <= 32:
-            self.copy_to_clipboard_button.show()
-        else:
-            self.copy_to_clipboard_button.hide()
+            # check if length_of_password exist
+
+            length_of_password = self.user_input_number.text().strip()
+
+            # check if length_of_password is a digit
+
+            if length_of_password.isdigit():
+
+                # check the length of password and show/hide button to copy generated password
+
+                length_of_password = int(self.user_input_number.text())
+                if 12 <= length_of_password <= 32:
+                    self.copy_to_clipboard_button.show()
+                else:
+                    self.copy_to_clipboard_button.hide()
+
+        except Exception as error:
+            print(f"Error: {error}")
 
     def copy_password_to_clipboard(self):
 
