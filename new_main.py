@@ -4,6 +4,8 @@ from PyQt5.QtWidgets import (QApplication, QMainWindow, QLabel, QWidget, QVBoxLa
                              QLineEdit)
 from PyQt5.QtGui import QIcon, QGuiApplication
 from PyQt5.QtCore import Qt
+import string
+import random
 
 
 class MainWindow(QMainWindow):
@@ -145,8 +147,6 @@ class MainWindow(QMainWindow):
 
     # function which generates password based on user input
     def generate_password(self):
-        import string
-        import random
 
         try:
             # take the input from user_input
