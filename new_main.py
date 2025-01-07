@@ -26,15 +26,22 @@ class MainWindow(QMainWindow):
         self.initUI()
 
     def initUI(self):
-        central_widget = QWidget()
-        self.setCentralWidget(central_widget)
+        self.central_widget = QWidget()
+        self.setCentralWidget(self.central_widget)
+        self.central_widget.setObjectName("central_widget")
 
         main_layout = QVBoxLayout()
+        # set margin and spacing to 0 so there is no ugly border around containers
+        main_layout.setContentsMargins(0, 0, 0, 0)
+        main_layout.setSpacing(0)
 
         # parent label container
         parent_label = QWidget(self)
         parent_layout = QVBoxLayout(parent_label)
         parent_label.setLayout(parent_layout)
+        # set margin and spacing to 0 so there is no ugly border around containers
+        parent_layout.setContentsMargins(0, 0, 0, 0)
+        parent_layout.setSpacing(0)
 
         # upper label
         self.header = QLabel("Welcome to KeyKangaroo!", parent_label)
@@ -45,6 +52,9 @@ class MainWindow(QMainWindow):
         # lower label container (splits into 2 vertical labels)
         lower_label_container = QWidget(parent_label)
         lower_layout = QHBoxLayout(lower_label_container)
+        # set margin and spacing to 0 so there is no ugly border around containers
+        lower_layout.setContentsMargins(0, 0, 0, 0)
+        lower_layout.setSpacing(0)
 
         # left and right vertical labels in the lower section
         input_widget_container = QWidget(lower_label_container)
@@ -99,10 +109,6 @@ class MainWindow(QMainWindow):
             }
             QLabel#header {
                 font-size: 48pt;
-                border: 2px solid black;
-            }
-            QWidget {
-                border: 2px solid red;
             }
             QWidget#input_container {
                 background-color: #FB6A75;
@@ -137,7 +143,7 @@ class MainWindow(QMainWindow):
         """)
 
         # set layout for the central widget
-        central_widget.setLayout(main_layout)
+        self.central_widget.setLayout(main_layout)
 
         generate_password_button.clicked.connect(self.generate_password)
         generate_password_button.clicked.connect(self.show_copy_button)
