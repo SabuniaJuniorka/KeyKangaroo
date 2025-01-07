@@ -69,9 +69,8 @@ class MainWindow(QMainWindow):
 
         # add input and append it to input container
         self.user_input_number = QLineEdit(input_widget_container)
-        #self.user_input_number.setAlignment(Qt.AlignCenter)
-        input_widget_layout.addWidget(self.user_input_number)
         self.user_input_number.setPlaceholderText("Enter length of password")
+        input_widget_layout.addWidget(self.user_input_number)
 
         # add generate button and append it to input container
         generate_password_button = QPushButton("Generate new password", input_widget_container)
@@ -122,8 +121,8 @@ class MainWindow(QMainWindow):
                 color: white;
             }
             QPushButton, QLineEdit {
+                border: 2px solid black;
                 font-size: 12pt;
-                border: 2px solid blue;
                 height: 100px;
                 min-width: 10em;
                 max-width: 30em;
