@@ -69,6 +69,7 @@ class MainWindow(QMainWindow):
 
         # add input and append it to input container
         self.user_input_number = QLineEdit(input_widget_container)
+        #self.user_input_number.setAlignment(Qt.AlignCenter)
         input_widget_layout.addWidget(self.user_input_number)
         self.user_input_number.setPlaceholderText("Enter length of password")
 
@@ -282,8 +283,15 @@ class MainWindow(QMainWindow):
         A password <b>shouldn’t contain any consecutive letters or numbers</b> <i>(i.e. ABCD, 1234, etc.)</i><br>
         A password <b>shouldn’t be the word “password” or the same letter or number repeated.</b><br>
         """
+
+        # set headet to text which tells user about secure password and change font size so it fits
+
         self.header.setText(secure_password_text)
         self.header.setStyleSheet("font-size: 14pt;")
+
+        # clear the input field and hide the copy button
+        self.user_input_number.clear()
+        self.copy_to_clipboard_button.hide()
 
 
 def main():
