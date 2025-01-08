@@ -1,18 +1,16 @@
 # KeyKangaroo
 
-KeyKangaroo is a password manager app built with PyQt5, inspired by Bitwarden. The goal is to educate users on what makes a safe password while making password storage easily accessible.
+KeyKangaroo is a password generator app built with PyQt5, inspired by Bitwarden. The goal is to educate users on what makes a safe password while making password creation easily accessible.
 
 ## Description
 
-The user specifies a number representing the desired password length, and KeyKangaroo generates a password of that length. If the user chooses to save the password, they will be prompted to specify the service for which it will be used.
+The user specifies a number representing the desired password length, and KeyKangaroo generates a password of that length. If the user chooses to save the password, they also have the option to copy it to the clipboard.
 
 ## Features
 
-1. Securing the vault by requiring a password to access it.
-2. Generating secure passwords.
-3. Storing passwords in a dictionary of Service:Password pairs.
-4. Updating passwords.
-5. Deleting passwords.
+1. Generate Secure Passwords: Allow users to create strong, random passwords based on their desired length and criteria.
+2. Copy to Clipboard: Provide a one-click option to copy the generated password for easy use.
+3. Learn About Password Security: Include a button that educates users on what makes a password secure and offers tips for creating stronger passwords.
 
 ## Requirements
 - A PC with an operating system like Windows, Linux, or macOS.
@@ -23,7 +21,8 @@ The user specifies a number representing the desired password length, and KeyKan
 1. TBA
 
 ## Instruction
-1. TBA
+1. Enter the desired length of your secure password in the input field.
+2. If needed, click the copy button to save the generated password to your clipboard.
 
 ## Screenshots
 1. TBA
