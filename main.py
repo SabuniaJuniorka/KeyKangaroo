@@ -1,242 +1,299 @@
 import sys
-from PyQt5.QtWidgets import (QApplication, QMainWindow, QLabel, QWidget, QVBoxLayout, QHBoxLayout, QGridLayout, QPushButton, QCheckBox, QRadioButton, QButtonGroup, QLineEdit, QPushButton)
-from PyQt5.QtGui import QIcon, QFont, QPixmap
+import pyperclip
+from PyQt5.QtWidgets import (QApplication, QMainWindow, QLabel, QWidget, QVBoxLayout, QHBoxLayout, QPushButton,
+                             QLineEdit)
+from PyQt5.QtGui import QIcon, QGuiApplication
 from PyQt5.QtCore import Qt
+import string
+import random
+
 
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
+        primary_screen = QGuiApplication.primaryScreen()
+        primary_screen_resolution = primary_screen.geometry()
+        primary_screen_width = primary_screen_resolution.width()
+        primary_screen_height = primary_screen_resolution.height()
+
+        self.window_width = int(primary_screen_width * 0.6)
+        self.window_height = int(primary_screen_height * 0.8)
+
+        self.setGeometry(100, 100, self.window_width, self.window_height)
         self.setWindowTitle("KeyKangaroo Password Manager")
-        self.setWindowIcon(QIcon("kangaroo.png")) # set the small icon near title
-        # self.setGeometry(x, y, width. height) - set the coordinate of the app and it's size
-        self.setGeometry(960, 540, 2000, 1500)
-        # self.button = QPushButton("Click me", self)
-        # self.label = QLabel("OK", self)
-        # self.checkbox = QCheckBox("Text of the checkbox", self) # ("text, parent widget)
-
-        """
-        self.radio1 = QRadioButton("Hasło literowe", self)
-        self.radio2 = QRadioButton("Hasło wyrazowe", self)
-        self.radio3 = QRadioButton("Hasło mieszane", self)
-
-        self.radio4 = QRadioButton("Losowe", self)
-        self.radio5 = QRadioButton("Nielosowe", self)
-
-        # make groups of buttons
-        self.button_group1 = QButtonGroup(self)
-        self.button_group2 = QButtonGroup(self)
-        
-        """
-
-        """
-        # create input box and submit button
-        self.line_edit = QLineEdit(self)
-        self.button = QPushButton("Submit", self)
-        """
-
-"""
-        # create 3 push buttons
-        self.button1 = QPushButton("#1", self)
-        self.button2 = QPushButton("#2", self)
-        self.button3 = QPushButton("#3", self)
-"""
-
+        # set the small icon near title
+        self.setWindowIcon(QIcon("kangaroo.png"))
 
         self.initUI()
 
-        """
-        # label = QLabel("Hello", self) - create new label, first arg is a text, second is the parent widget
-        label = QLabel("Hello", self)
-        # label.setFont(QFont("Arial", 50)) - set font of the label (font family, font size)
-        label.setFont(QFont("Arial", 50))
-        label.setGeometry(0,0, 500, 500)
-        # label.setStyleSheet("css-prop;") - set the style of the label
-        label.setStyleSheet("color: blue;"
-                            "background-color: red;"
-                            "font-weight: bold;")
-
-        # label.setAlignment(Qt.AlignCenter) - set the position of the label, uses one of 9 arguments
-        label.setAlignment(Qt.AlignCenter)
-
-        #create new label and set it's geometry
-        label2 = QLabel(self)
-        label2.setGeometry(0, 500, 500, 500)
-
-        # create the pixmap object storing the picture
-        pixmap = QPixmap("kangaroo2.png")
-        # "append" the pic to the label
-        label2.setPixmap(pixmap)
-        # the method below makes picture scale with size og the label
-        label2.setScaledContents(True)
-
-        #label2.setGeometry((self.width() - label.width()) // 2,
-                           self.height() - label.height(),
-                           label2.width(),
-                           label2.height())
-        """
     def initUI(self):
+        self.central_widget = QWidget()
+        self.setCentralWidget(self.central_widget)
+        self.central_widget.setObjectName("central_widget")
 
+        main_layout = QVBoxLayout()
+        # set margin and spacing to 0 so there is no ugly border around containers
+        main_layout.setContentsMargins(0, 0, 0, 0)
+        main_layout.setSpacing(0)
 
-"""
+        # parent label container
+        parent_label = QWidget(self)
+        parent_layout = QVBoxLayout(parent_label)
+        parent_label.setLayout(parent_layout)
+        # set margin and spacing to 0 so there is no ugly border around containers
+        parent_layout.setContentsMargins(0, 0, 0, 0)
+        parent_layout.setSpacing(0)
 
-        # add central widget so you can set the layout method
-        central_widget = QWidget()
-        self.setCentralWidget(central_widget)
+        # upper label
+        self.header = QLabel("Welcome to KeyKangaroo!", parent_label)
+        self.header.setAlignment(Qt.AlignCenter)
+        parent_layout.addWidget(self.header)
+        self.header.setObjectName("header")
 
-        # make layout
-        hbox = QHBoxLayout()
+        # lower label container (splits into 2 vertical labels)
+        lower_label_container = QWidget(parent_label)
+        lower_layout = QHBoxLayout(lower_label_container)
+        # set margin and spacing to 0 so there is no ugly border around containers
+        lower_layout.setContentsMargins(0, 0, 0, 0)
+        lower_layout.setSpacing(0)
 
-        # add things to the widget
-        hbox.addWidget(self.button1)
-        hbox.addWidget(self.button2)
-        hbox.addWidget(self.button3)
+        # left and right vertical labels in the lower section
+        input_widget_container = QWidget(lower_label_container)
+        input_widget_layout = QVBoxLayout(input_widget_container)
+        # set maximum width of input container
+        input_widget_container.setMaximumWidth(self.window_width // 2)
+        input_widget_container.setObjectName("input_container")
 
-        # append the layout to widget
-        central_widget.setLayout(hbox)
+        button_widget_container = QWidget(lower_label_container)
+        button_widget_layout = QHBoxLayout(button_widget_container)
+        button_widget_container.setObjectName("button_container")
 
-        # set name for the objects so you can use them in CSS like styling later
-        self.button1.setObjectName("b1")
-        self.button2.setObjectName("b2")
-        self.button3.setObjectName("b3")
+        # add input and append it to input container
+        self.user_input_number = QLineEdit(input_widget_container)
+        self.user_input_number.setPlaceholderText("Enter length of password")
+        input_widget_layout.addWidget(self.user_input_number)
 
-        # the syntax of CSS like styling
-        self.setStyleSheet("ex""
-            QPushButton{
-                font-size: 40px;
-                font-family: Roboto;
-                padding: 75px;
-                margin: 25px;
-                border: 3px solid;
-                border-radius: 40px;
+        # add generate button and append it to input container
+        generate_password_button = QPushButton("Generate new password", input_widget_container)
+        input_widget_layout.addWidget(generate_password_button)
+
+        # add copy to clipboard and what is a secure password button and append them to button container
+
+        self.copy_to_clipboard_button = QPushButton("Copy password to clipboard", button_widget_container)
+        button_widget_layout.addWidget(self.copy_to_clipboard_button)
+        self.copy_to_clipboard_button.hide()
+
+        self.what_makes_password_secure_button = QPushButton("What makes password secure?", button_widget_container)
+        button_widget_layout.addWidget(self.what_makes_password_secure_button)
+        self.what_makes_password_secure_button.setObjectName("secure_password")
+
+        # add left and right labels to the lower layout
+        lower_layout.addWidget(input_widget_container)
+        lower_layout.addWidget(button_widget_container)
+
+        # add lower container to the parent layout
+        parent_layout.addWidget(lower_label_container)
+
+        # add parent label to the main layout
+        main_layout.addWidget(parent_label)
+
+        # styling
+        self.setStyleSheet("""
+            * {
+            font-family: Roboto Mono;
             }
-            QPushButton#b1{
-                background-color: red;
+            QWidget{
+                background-color: #FBE5B6;
             }
-            QPushButton#b2{
-                background-color: yellow;
+            QLabel {
+                font-size: 24pt;
             }
-            QPushButton#b3{
-                background-color: blue;
+            QLabel#header {
+                font-size: 48pt;
             }
+            QWidget#input_container {
+                background-color: #FB6A75;
+            }
+            QWidget#button_container {
+                background-color: #00C7B7;
+            }
+            QLineEdit{
+                background-color: #2C6E63;
+                color: white;
+            }
+            QPushButton, QLineEdit {
+                border: 2px solid black;
+                font-size: 12pt;
+                height: 100px;
+                min-width: 10em;
+                max-width: 30em;
+            }
+            QPushButton {
+                background-color: #CE9865;
+            }
+            QPushButton::hover {
+                background-color: #F38218;
+            }
+            QPushButton#secure_password {
+                background-color: #F8B735;
+            }
+            QPushButton#secure_password::hover {
+                background-color: #faca69;
+            }
+
         """)
-        
-"""
 
-"""
-        # style the input box and submit button
-        self.line_edit.setGeometry(50, 50, 500, 100)
-        self.line_edit.setStyleSheet("font-size: 50px;"
-                                     "font-family: Roboto;")
-        self.line_edit.setPlaceholderText("Enter your password")
+        # set layout for the central widget
+        self.central_widget.setLayout(main_layout)
 
-        self.button.setGeometry(600, 50, 250, 100)
-        self.button.setStyleSheet("font-size: 50px;"
-                                  "font-family: Roboto;")
+        generate_password_button.clicked.connect(self.generate_password)
+        generate_password_button.clicked.connect(self.show_copy_button)
 
-        self.button.clicked.connect(self.submit)
+        self.copy_to_clipboard_button.clicked.connect(self.copy_password_to_clipboard)
+        self.what_makes_password_secure_button.clicked.connect(self.what_makes_password_secure)
 
-    # make the button take input from the textbox into var
-    def submit(self):
-        text_from_button = self.line_edit.text()
-        print(text_from_button)
+    # function which generates password based on user input
+    def generate_password(self):
 
-        self.radio1.setGeometry(0, 0, 500, 100)
-        self.radio2.setGeometry(0, 100, 500, 100)
-        self.radio3.setGeometry(0, 200, 500, 100)
-        self.radio4.setGeometry(0, 300, 500, 100)
-        self.radio5.setGeometry(0, 400, 500, 100)
+        try:
+            # take the input from user_input
 
-        # change stylesheet of all types
-        self.setStyleSheet("QRadioButton{"
-                           "font-size: 50px;"
-                           "font-family: Arial;"
-                           "padding: 10px;"
-                           "}")
+            length_of_password = self.user_input_number.text().strip()
 
-        # add buttons to the groups
-        self.button_group1.addButton(self.radio1)
-        self.button_group1.addButton(self.radio2)
-        self.button_group1.addButton(self.radio3)
+            # if the input is empty
 
-        self.button_group2.addButton(self.radio4)
-        self.button_group2.addButton(self.radio5)
+            if not length_of_password:
+                self.header.setText("Please enter a length of password!")
+                self.header.setStyleSheet("font-size: 48pt; color: red;")
+                return
 
-        self.radio1.toggled.connect(self.radio_button_change)
-        self.radio2.toggled.connect(self.radio_button_change)
-        self.radio3.toggled.connect(self.radio_button_change)
-        self.radio4.toggled.connect(self.radio_button_change)
-        self.radio5.toggled.connect(self.radio_button_change)
+            # check if input is not a number
 
-    def radio_button_change(self):
-        radio_button = self.sender()
-        if radio_button.isChecked():
-            print(f"{radio_button.text()} is selected ")
+            if not length_of_password.isdigit():
+                self.header.setText("Please enter an integer number!")
+                self.header.setStyleSheet("font-size: 48pt; color: red;")
+                return
 
-"""
+            # get all characters needed to create secure password
 
-        # central_widget = QWidget()
-        # self.setCentralWidget(central_widget)
-        #
-        # welcomeLabel = QLabel("Welcome!", self)
-        # label3 = QLabel("#3", self)
-        # label4 = QLabel("#4", self)
-        #
-        # welcomeLabel.setStyleSheet("background-color: red;")
-        # label3.setStyleSheet("background-color: yellow;")
-        # label4.setStyleSheet("background-color: brown;")
-        #
-        # vbox = QVBoxLayout()
-        #
-        # # grid = QGridLayout()
-        # # grid.addWidget(label, row, colum)
-        #
-        # vbox.addWidget(welcomeLabel)
-        # vbox.addWidget(label3)
-        # vbox.addWidget(label4)
-        #
-        # central_widget.setLayout(vbox)
+            ascii_lowercase = list(string.ascii_lowercase)
+            ascii_uppercase = list(string.ascii_uppercase)
+            digits = list(string.digits)
+            special_chars = list(string.punctuation)
 
-"""
-        creating button and label after click
-        self.button.setGeometry(500, 0, 1000, 500)
-        self.button.setStyleSheet("font-size: 50px;")
-        self.button.clicked.connect(self.on_click)
+            # delete characters that some site don't approve
+            special_chars.remove("`")
+            special_chars.remove("|")
 
-        self.label.setGeometry(500, 500, 1000, 500)
-        self.label.setStyleSheet("font-size: 30px;")
-"""
+            length_of_password = int(length_of_password)
 
-"""
-        # styling checkbox
-        self.checkbox.setGeometry(50, 0, 500, 100)
-        self.checkbox.setStyleSheet("font-size: 50px;")
-    
-        # connecting checkbox to the function signal
-        self.checkbox.setChecked(False) # True makes checkbox checked by default
-        self.checkbox.stateChanged.connect(self.checkbox_changed)
-"""
+            # check the length of the input and inform the user if the password is too short to be secure
+            self.header.setStyleSheet("font-size: 48pt;")
+            if length_of_password < 12:
+                print("password is too short")
+                self.header.setText(f"Password is too short!\nShould be at least 12 characters")
+            elif length_of_password > 32:
+                print("password is too long")
+                self.header.setText(f"Password is too long!\nShould be at most 32 characters")
+            else:
 
+                # shuffle lists of characters
 
+                random.shuffle(ascii_lowercase)
+                random.shuffle(ascii_uppercase)
+                random.shuffle(digits)
+                random.shuffle(special_chars)
 
-"""
-    # checking the state of checkbox and printing the value based of it
-    def checkbox_changed(self, state):
-        print(state)
-        if state == Qt.Checked:
-            print("True")
-        else:
-            print("False")
-"""
+                # part the length of password in 2
+                password_part_1 = round(length_of_password * 0.3)
+                password_part_2 = round(length_of_password * 0.2)
 
+                generated_signs = []
 
-"""
-    def on_click(self):
-        # creating button and label after click
-        self.label.setText("COOL")
-        print("Button clicked")
-        self.button.setText("Clicked")
-"""
-"""
+                # append the number of signs to the list of signs
+
+                for sign in range(password_part_1):
+                    generated_signs.append(ascii_lowercase[sign])
+                    generated_signs.append(ascii_uppercase[sign])
+
+                for sign in range(password_part_2):
+                    generated_signs.append(digits[sign])
+                    generated_signs.append(special_chars[sign])
+
+                # shuffle generated signs once again
+
+                random.shuffle(generated_signs)
+
+                # make a password from random signs by joining them
+
+                password = "".join(generated_signs)
+
+                # display password in header
+
+                self.header.setStyleSheet("font-size: 48pt;")
+                self.header.setText(f"Your password:\n{password}")
+
+        except Exception as error:
+            print(f"Error: {error}")
+            self.header.setStyleSheet("font-size: 48pt;")
+            self.header.setText("Please enter a valid number!")
+
+    def show_copy_button(self):
+        try:
+
+            # check if length_of_password exist
+
+            length_of_password = self.user_input_number.text().strip()
+
+            # check if length_of_password is a digit
+
+            if length_of_password.isdigit():
+
+                # check the length of password and show/hide button to copy generated password
+
+                length_of_password = int(self.user_input_number.text())
+                if 12 <= length_of_password <= 32:
+                    self.copy_to_clipboard_button.show()
+                else:
+                    self.copy_to_clipboard_button.hide()
+
+        except Exception as error:
+            print(f"Error: {error}")
+
+    def copy_password_to_clipboard(self):
+
+        # get the header text and extract password from it
+        text = self.header.text()
+        text_splited = text.split()
+        password = text_splited[2]
+
+        # copy password to system clipboard
+
+        pyperclip.copy(password)
+        self.header.setText("Password copied to clipboard!")
+
+        #clear the input field
+
+        self.user_input_number.clear()
+
+    def what_makes_password_secure(self):
+        secure_password_text = """
+        A password should be <b>at least 12 characters long</b>.<br>
+        A password <b>should include a combination of letters, both uppercase and lowercase, numbers, and characters.</b><br>
+        You must have a <b>unique password</b> for each online account.<br>
+        A password <b>shouldn’t include any of your personal information</b> like your birthday or address.<br>
+        A password <b>shouldn’t contain any consecutive letters or numbers</b> <i>(i.e. ABCD, 1234, etc.)</i><br>
+        A password <b>shouldn’t be the word “password” or the same letter or number repeated.</b><br>
+        """
+
+        # set headet to text which tells user about secure password and change font size so it fits
+
+        self.header.setText(secure_password_text)
+        self.header.setStyleSheet("font-size: 14pt;")
+
+        # clear the input field and hide the copy button
+        self.user_input_number.clear()
+        self.copy_to_clipboard_button.hide()
 
 
 def main():
@@ -244,6 +301,7 @@ def main():
     window = MainWindow()
     window.show()
     sys.exit(app.exec_())
+
 
 if __name__ == "__main__":
     main()
