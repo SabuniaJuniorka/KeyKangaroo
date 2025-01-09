@@ -22,7 +22,7 @@ class MainWindow(QMainWindow):
         self.setGeometry(100, 100, self.window_width, self.window_height)
         self.setWindowTitle("KeyKangaroo Password Manager")
         # set the small icon near title
-        self.setWindowIcon(QIcon("kangaroo.png"))
+        self.setWindowIcon(QIcon("images/kangaroo.png"))
 
         self.initUI()
 
