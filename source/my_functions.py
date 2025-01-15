@@ -6,8 +6,7 @@ def generate_password(length_of_password):
     try:
         # take the input from user_input
 
-        length_of_password = input("Enter the length of password: ")
-
+        #length_of_password = input("Enter the length of password: ")
         # get all characters needed to create secure password
 
         ascii_lowercase = list(string.ascii_lowercase)
@@ -58,6 +57,8 @@ def generate_password(length_of_password):
             # make a password from random signs by joining them
 
             password = "".join(generated_signs)
+
+            return password
 
             # display password
 
