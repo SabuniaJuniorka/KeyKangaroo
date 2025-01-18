@@ -25,7 +25,11 @@ The user specifies a number representing the desired password length, and KeyKan
 2. If needed, click the copy button to save the generated password to your clipboard.
 
 ## Screenshots
-1. TBA
+1. ![main](https://github.com/user-attachments/assets/4426e366-6bb8-498a-b7a1-05d14a45e5c8)
+2. ![main2](https://github.com/user-attachments/assets/5219ef9c-9a1e-42b6-a68f-4ff08f29ebea)
+3. ![pass_generated](https://github.com/user-attachments/assets/18e721c1-b1f7-4227-ab20-f40f1cbc1653)
+4. ![error_len](https://github.com/user-attachments/assets/4fb12a38-b3d9-41b3-9a4d-ba27d0053cbd)
+5. ![error_int](https://github.com/user-attachments/assets/e6aab027-8c45-46fc-ad31-8ea785e56450)
 
 ## Contributing
 1. TBA
